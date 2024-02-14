@@ -134,6 +134,17 @@ int IO::InitGamepads()
 	fprintf(stdout, "Gamepads currently attached: %i\n", SDL_NumJoysticks());
 	if(SDL_NumJoysticks() == 0)
 		fprintf(stdout, "Check the gamepad is properly connected\n"); 
+
+        // Initialize haptic devices for each game controller
+    for (int i = 0; i < SDL_NumJoysticks(); ++i) {
+        haptics[i] = SDL_HapticOpen(i);
+        if (haptics[i]) {
+            if (SDL_HapticRumbleInit(haptics[i]) != 0) {
+                fprintf(stderr, "Failed to initialize rumble for controller %d: %s\n", i, SDL_GetError());
+                // Handle initialization failure
+            }
+        }
+    }
 	
 	/// Also actually open - add more checks later
 	for(int i=0; i<SDL_NumJoysticks(); i++)
