@@ -144,7 +144,7 @@ int IO::InitGamepads()
                 // Handle initialization failure
             }
         }
-    }
+    };
 	
 	/// Also actually open - add more checks later
 	for(int i=0; i<SDL_NumJoysticks(); i++)
